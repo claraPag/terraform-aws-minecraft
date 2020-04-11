@@ -118,7 +118,7 @@ SYSTEMD
 
 }
 
-MINECRAFT_JAR="minecraft_server.${mc_version}.jar"
+MINECRAFT_JAR="server.jar"
 
 case $OS in
   Ubuntu*)
@@ -133,9 +133,13 @@ case $OS in
 esac
 
 # Create mc dir, sync S3 to it and download mc if not already there (from S3)
+MC_VERSION_URLS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["versions"][0]["url"]') 
+MC_LATEST_SNAPSHOT=$(curl -s $MC_VERSION_URLS | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["downloads"]["server"]["url"]')                         
+
+wget $MC_LATEST_SNAPSHOT
 /bin/mkdir -p ${mc_root}
 /usr/bin/aws s3 sync s3://${mc_bucket} ${mc_root}
-[[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O ${mc_root}/$MINECRAFT_JAR https://s3.amazonaws.com/Minecraft.Download/versions/${mc_version}/$MINECRAFT_JAR
+[[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O MC_LATEST_SNAPSHOT
 
 # Cron job to sync data to S3 every five mins
 /bin/cat <<CRON > /etc/cron.d/minecraft
