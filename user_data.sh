@@ -136,7 +136,6 @@ esac
 MC_VERSION_URLS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["versions"][0]["url"]') 
 MC_LATEST_SNAPSHOT=$(curl -s $MC_VERSION_URLS | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["downloads"]["server"]["url"]')                         
 
-wget $MC_LATEST_SNAPSHOT
 /bin/mkdir -p ${mc_root}
 /usr/bin/aws s3 sync s3://${mc_bucket} ${mc_root}
 [[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O MC_LATEST_SNAPSHOT

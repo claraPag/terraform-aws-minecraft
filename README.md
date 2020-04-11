@@ -1,6 +1,6 @@
 # terraform-aws-minecraft
 
-Terraform module to provision an EC2 instance with an S3 backing store for running the [Minecraft](https://minecraft.net/en-us/) server.
+Terraform module to provision an EC2 instance with an S3 backing store for running the [Minecraft](https://minecraft.net/en-us/) server with latest version
 
 ## Usage
 
@@ -32,7 +32,6 @@ module "minecraft" {
 |mc_backup_freq|How often (mins) to sync to S3|5||
 |mc_port|TCP port for minecraft|25565||
 |mc_root|Where to install minecraft|`/home/minecraft`||
-|mc_version|Which version of minecraft to install|1.12.2||
 |subnet_id|VPC subnet id to place the instance||Yes|
 |tags|Any extra tags to assign to objects|||
 |vpc_id|VPC for security group||Yes|

@@ -38,11 +38,6 @@ variable "mc_root" {
   default     = "/home/minecraft"
 }
 
-variable "mc_version" {
-  description = "Which version of minecraft to install"
-  default     = "1.12.2"
-}
-
 variable "mc_backup_freq" {
   description = "How often (mins) to sync to S3"
   default     = "5"
