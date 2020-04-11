@@ -138,7 +138,7 @@ MC_LATEST_SNAPSHOT=$(curl -s $MC_VERSION_URLS | python3 -c 'import json,sys,base
 
 /bin/mkdir -m777 -p ${mc_root}
 /usr/bin/aws s3 sync s3://${mc_bucket} ${mc_root}
-[[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O ${mc_root}/$MINECRAFT_JAR MC_LATEST_SNAPSHOT
+[[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O ${mc_root}/$MINECRAFT_JAR $MC_LATEST_SNAPSHOT
 
 # Cron job to sync data to S3 every five mins
 /bin/cat <<CRON > /etc/cron.d/minecraft
