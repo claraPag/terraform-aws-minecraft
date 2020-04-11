@@ -42,7 +42,6 @@ ubuntu_linux_setup() {
   export DEBIAN_FRONTEND=noninteractive
   /usr/bin/apt-get update
   /usr/bin/apt-get -yq install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" default-jre wget awscli
-  /usr/bin/apt-get install python
   /bin/cat <<"__UPG__" > /etc/apt/apt.conf.d/10periodic
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
@@ -134,10 +133,10 @@ case $OS in
 esac
 
 # Create mc dir, sync S3 to it and download mc if not already there (from S3)
-MC_VERSION_URLS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["versions"][0]["url"]') 
-MC_LATEST_SNAPSHOT=$(curl -s $MC_VERSION_URLS | python -c 'import json,sys,base64;obj=json.load(sys.stdin); print obj["downloads"]["server"]["url"]')                         
+MC_VERSION_URLS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | python3 -c 'import json,sys,base64;obj=json.load(sys.stdin); print(obj["versions"][0]["url"])') 
+MC_LATEST_SNAPSHOT=$(curl -s $MC_VERSION_URLS | python3 -c 'import json,sys,base64;obj=json.load(sys.stdin); print (obj["downloads"]["server"]["url"])')                         
 
-/bin/mkdir -p ${mc_root}
+/bin/mkdir -m777 -p ${mc_root}
 /usr/bin/aws s3 sync s3://${mc_bucket} ${mc_root}
 [[ -e "$MINECRAFT_JAR" ]] || /usr/bin/wget -O ${mc_root}/$MINECRAFT_JAR MC_LATEST_SNAPSHOT
 
